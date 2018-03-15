@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170406223727) do
+ActiveRecord::Schema.define(version: 20180315141613) do
+
+  create_table "comments", force: :cascade do |t|
+    t.string "commentable_type", null: false
+    t.integer "commentable_id", null: false
+    t.string "commenter_type", null: false
+    t.integer "commenter_id", null: false
+    t.text "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id"
+    t.index ["commenter_type", "commenter_id"], name: "index_comments_on_commenter_type_and_commenter_id"
+  end
 
   create_table "genres", force: :cascade do |t|
     t.string "name"
@@ -26,6 +38,7 @@ ActiveRecord::Schema.define(version: 20170406223727) do
     t.integer "genre_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer "comments_count", default: 0, null: false
     t.index ["genre_id"], name: "index_movies_on_genre_id"
   end
 
@@ -48,6 +61,7 @@ ActiveRecord::Schema.define(version: 20170406223727) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.string "name", default: "", null: false
+    t.integer "comments_count", default: 0, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

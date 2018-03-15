@@ -1,4 +1,4 @@
-class Api::V1::MoviesController < ApplicationController
+class Api::V1::MoviesController < Api::BaseController
   def index
     @movies = Movie.order(:title)
     jsonapi_render json: @movies

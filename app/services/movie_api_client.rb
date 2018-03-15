@@ -1,4 +1,4 @@
-require 'open-uri'
+require "open-uri"
 
 class MovieAPIClient
   attr_reader :movie_json
@@ -12,7 +12,7 @@ class MovieAPIClient
   end
 
   def host
-    'https://pairguru-api.herokuapp.com'
+    "https://pairguru-api.herokuapp.com"
   end
 
   private

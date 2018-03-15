@@ -6,7 +6,13 @@ class MoviesController < ApplicationController
   end
 
   def show
-    @movie = Movie.find(params[:id])
+    movie = Movie.find(params[:id])
+    movie_api_client = MovieAPIClient.new(movie_name: movie.title)
+    movie_api_client.call()
+    @movie = RichMovieDecorator.decorate(movie, context: {
+      movie_json: movie_api_client.movie_json,
+      api_host: movie_api_client.host
+    })
   end
 
   def send_info

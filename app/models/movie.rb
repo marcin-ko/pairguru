@@ -14,4 +14,5 @@
 
 class Movie < ApplicationRecord
   belongs_to :genre
+  attr_accessor :rating
 end

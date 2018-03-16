@@ -20,5 +20,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       jsonapi_resources :movies, only: [:index, :show]
     end
+    namespace :v2 do
+      jsonapi_resources :movies, only: [:index, :show]
+    end
   end
 end

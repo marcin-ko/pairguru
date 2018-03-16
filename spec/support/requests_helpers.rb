@@ -28,12 +28,36 @@ module Requests
       end
     end
 
+    RSpec::Matchers.define :have_jsonapi_included_objects do |type, *ids|
+      ids = ids.flatten
+      match do |actual|
+        actual_objects = extract_jsonapi_included_objects(json, type)
+        if ids.any?
+          ids.all? {|i| actual_objects[i.to_s].present? }
+        else
+          actual_objects.any?
+        end
+      end
+      failure_message do |actual|
+        actual_objects = extract_jsonapi_included_objects(json, type)
+        if ids.any?
+          "expected to find #{type} with IDs #{ids.inspect}, but got #{actual_objects.keys.inspect}"
+        else
+          "expected to find #{type}, but none found"
+        end
+      end
+    end
+
     def extract_jsonapi_ids(json)
       Array.wrap(json["data"]).map {|h| h["id"] }
     end
 
     def extract_jsonapi_types(json)
       Array.wrap(json["data"]).map { |h| h["type"] }.uniq
+    end
+
+    def extract_jsonapi_included_objects(json, type)
+      Hash[(json["included"] || []).find_all { |h| h["type"] == type }.map { |h| [h["id"], h] }]
     end
   end
 end

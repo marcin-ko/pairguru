@@ -1,4 +1,6 @@
 JSONAPI.configure do |config|
+  config.allow_include = true
+
   # :none, :offset, :paged, or a custom paginator name
   config.default_paginator = :paged
 

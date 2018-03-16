@@ -2,4 +2,21 @@
 .jumbotron
   = @movie.description
 - if user_signed_in?
-  %p= link_to 'Email me details about this movie', send_info_movie_path(@movie), class: 'btn btn-sm btn-default'
+  %p= link_to "Email me details about this movie", send_info_movie_path(@movie), class: "btn btn-sm btn-default"
+
+  = form_tag(movie_comments_path(@movie), method: "post") do
+    .form-group
+      = label_tag(:text, "Comment:")
+      = text_area(:comment, :text, rows: "5", class: "form-control comment-text-input" )
+      = submit_tag("Post", class: "post-comment")
+
+-# TODO: add pagination
+- if @movie.comments.kept.any?
+  %ul.list-group
+    - @movie.comments.kept.each do |comment|
+      %li.list-group-item
+        %span.comment
+          = "#{comment.commenter.name} says: #{comment.text}"
+        - if current_user == comment.commenter
+          %span
+            = link_to "delete", movie_comment_path(@movie, comment), method: "delete"

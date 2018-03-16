@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180315141613) do
+ActiveRecord::Schema.define(version: 20180316085627) do
 
   create_table "comments", force: :cascade do |t|
     t.string "commentable_type", null: false
@@ -20,8 +20,10 @@ ActiveRecord::Schema.define(version: 20180315141613) do
     t.text "text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "discarded_at"
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id"
     t.index ["commenter_type", "commenter_id"], name: "index_comments_on_commenter_type_and_commenter_id"
+    t.index ["discarded_at"], name: "index_comments_on_discarded_at"
   end
 
   create_table "genres", force: :cascade do |t|

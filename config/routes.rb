@@ -15,4 +15,13 @@ Rails.application.routes.draw do
       get :export
     end
   end
+
+  namespace :api do
+    namespace :v1 do
+      jsonapi_resources :movies, only: [:index, :show]
+    end
+    namespace :v2 do
+      jsonapi_resources :movies, only: [:index, :show]
+    end
+  end
 end

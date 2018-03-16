@@ -82,3 +82,14 @@ if Movie.count < 100
     )
   end
 end
+
+Rails.logger.info "Creating comments..."
+
+200.times do
+  Comment.new(
+    commentable: Movie.order("RANDOM()").first,
+    commenter: User.order("RANDOM()").first,
+    text: Faker::Lorem.paragraph(5),
+    created_at: Faker::Date.between(2.weeks.ago, Time.zone.today)
+  ).save(validate: false)
+end
